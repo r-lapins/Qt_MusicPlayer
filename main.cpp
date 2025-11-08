@@ -1,21 +1,20 @@
 #include <QGuiApplication>
-#include <QIcon>
 #include <QQmlApplicationEngine>
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    app.setWindowIcon(QIcon(":/assets/icon/app_icon.png"));
+    app.setWindowIcon(QIcon(":/assets/icons/app_icon.png"));
 
     QQmlApplicationEngine engine;
-    QObject::connect(
-        &engine,
-        &QQmlApplicationEngine::objectCreationFailed,
-        &app,
-        []() { QCoreApplication::exit(-1); },
-        Qt::QueuedConnection);
     engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
+
+    QObject::connect(
+        &engine, &QQmlApplicationEngine::objectCreationFailed,
+        &app, []() { QCoreApplication::exit(-1); },
+        Qt::QueuedConnection);
 
     return app.exec();
 }

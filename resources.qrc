@@ -11,5 +11,7 @@
     </qresource>
     <qresource prefix="/">
         <file>Main.qml</file>
+        <file>AudioInfoBox.qml</file>
+        <file>TextButton.qml</file>
     </qresource>
 </RCC>
