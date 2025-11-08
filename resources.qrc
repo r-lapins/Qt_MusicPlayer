@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/icons/app_icon.png</file>
+        <file>assets/icons/next.png</file>
+        <file>assets/icons/pause.png</file>
+        <file>assets/icons/play.png</file>
+        <file>assets/icons/previous.png</file>
+        <file>assets/images/image1.jpg</file>
+        <file>assets/images/image2.jpg</file>
+        <file>assets/images/image3.jpg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>Main.qml</file>
+    </qresource>
+</RCC>

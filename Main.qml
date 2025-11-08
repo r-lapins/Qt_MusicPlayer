@@ -44,7 +44,7 @@ Window {
             songIndex: 0
             title: "Eine kleine Nachtmusik"
             authorName: "Rammstein"
-            imageColor: "red"
+            imageSource: "qrc:/assets/images/image1.jpg"
         }
 
         AudioInfoBox {
@@ -60,7 +60,7 @@ Window {
             songIndex: 1
             title: "Meine Mutter"
             authorName: "Radio dla Polaków"
-            imageColor: "darkblue"
+            imageSource: "qrc:/assets/images/image2.jpg"
         }
 
         AudioInfoBox {
@@ -76,7 +76,7 @@ Window {
             songIndex: 2
             title: "Poranne zorze"
             authorName: "Franek Jodełka"
-            imageColor: "cyan"
+            imageSource: "qrc:/assets/images/image3.jpg"
         }
     }
 
