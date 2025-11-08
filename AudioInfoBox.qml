@@ -1,61 +1,90 @@
 import QtQuick
+import QtMultimedia
 
 Item {
-    id: root
+  id: root
 
-    required property int songIndex
-    property alias title: titleText.text
-    property alias authorName: authorText.text
-    property alias imageSource: albumImage.source
+  required property int songIndex
+  property alias title: titleText.text
+  property alias authorName: authorText.text
+  property alias imageSource: albumImage.source
+  property url videoSource: ""
 
-    visible: playerController.currentSongIndex === root.songIndex
+  visible: playerController.currentSongIndex === root.songIndex
 
-    Image {
-        id: albumImage
+  Image {
+    id: albumImage
 
-        anchors {
-            verticalCenter: parent.verticalCenter
-            left: parent.left
-        }
-
-        width: 150
-        height: 150
+    anchors {
+      verticalCenter: parent.verticalCenter
+      left: parent.left
     }
 
-    Text {
-        id: titleText
+    width: 150
+    height: 150
+  }
 
-        anchors {
-            bottom: parent.verticalCenter
-            left: albumImage.right
-            margins: 20
-            right: parent.right
-        }
+  MediaPlayer {
+    id: mediaPlayer
+    source: root.videoSource
+    videoOutput: videoOutput
+    autoPlay: false
+    loops: MediaPlayer.Infinite
+  }
 
-        color: "white"
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+  VideoOutput {
+    id: videoOutput
+    anchors {
+      verticalCenter: parent.verticalCenter
+      right: parent.right
+    }
+    width: 150
+    height: 150
+  }
 
-        font {
-            pixelSize: 20
-            bold: true
-        }
+  Text {
+    id: titleText
+
+    anchors {
+      bottom: parent.verticalCenter
+      left: albumImage.right
+      margins: 20
+      right: parent.right
     }
 
-    Text {
-        id: authorText
+    color: "white"
+    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-        anchors {
-            top: parent.verticalCenter
-            left: titleText.left
-            topMargin: 5
-            right: parent.right
-        }
-
-        color: "gray"
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-
-        font {
-            pixelSize: 16
-        }
+    font {
+      pixelSize: 20
+      bold: true
     }
+  }
+
+  Text {
+    id: authorText
+
+    anchors {
+      top: parent.verticalCenter
+      left: titleText.left
+      topMargin: 5
+      right: parent.right
+    }
+
+    color: "gray"
+    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
+    font {
+      pixelSize: 16
+    }
+  }
+
+  onVisibleChanged: {
+    if (visible && root.videoSource !== "") {
+      mediaPlayer.play()
+    } else {
+      mediaPlayer.stop()
+      mediaPlayer.position = 0
+    }
+  }
 }
