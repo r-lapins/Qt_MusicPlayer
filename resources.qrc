@@ -8,8 +8,6 @@
         <file>assets/images/image1.jpg</file>
         <file>assets/images/image2.jpg</file>
         <file>assets/images/image3.jpg</file>
-    </qresource>
-    <qresource prefix="/">
         <file>Main.qml</file>
         <file>AudioInfoBox.qml</file>
         <file>TextButton.qml</file>
