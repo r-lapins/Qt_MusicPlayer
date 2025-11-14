@@ -7,12 +7,14 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Multimedia)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_executable(appAudioPlayerTutorial
     main.cpp
     resources.qrc
+    PlayerController.h PlayerController.cpp
 )
 
 set_target_properties(appAudioPlayerTutorial PROPERTIES
@@ -26,6 +28,7 @@ set_target_properties(appAudioPlayerTutorial PROPERTIES
 target_link_libraries(appAudioPlayerTutorial
     PRIVATE Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Multimedia
 )
+target_link_libraries(appAudioPlayerTutorial PRIVATE Qt6::Core)
 
 include(GNUInstallDirs)
 install(TARGETS appAudioPlayerTutorial
