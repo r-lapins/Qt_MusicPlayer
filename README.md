@@ -7,16 +7,16 @@ The project combines backend logic written in C++ with a user interface implemen
 
 ## Features
 
-Play local audio files
-Basic playback controls: Play / Pause / Stop
-QML-based user interface
-Example audio assets
-Built with CMake and Qt 6
+* Play local audio files
+* Basic playback controls: Play / Pause / Stop
+* QML-based user interface
+* Example audio assets
+* Built with CMake and Qt 6
 
 ## Requirements
 
-Qt 6 (latest recommended)
-C++17-compatible compiler
-CMake 3.16+
-Linux, Windows, or macOS (any platform supported by Qt)
+* Qt 6 (latest recommended)
+* C++17-compatible compiler
+* CMake 3.16+
+* Linux, Windows, or macOS (any platform supported by Qt)
 
