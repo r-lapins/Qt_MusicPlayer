@@ -45,7 +45,7 @@ Window {
       songIndex: 0
       title: "Eine kleine Nachtmusik"
       authorName: "Rammstein"
-      imageSource: "qrc:/assets/images/image1.jpg"
+      imageSource: "qrc:/AudioPlayer/assets/images/image1.jpg"
     }
 
     AudioInfoBox {
@@ -61,7 +61,7 @@ Window {
       songIndex: 1
       title: "Meine Mutter"
       authorName: "Radio dla Polaków"
-      imageSource: "qrc:/assets/images/image2.jpg"
+      imageSource: "qrc:/AudioPlayer/assets/images/image2.jpg"
     }
 
     AudioInfoBox {
@@ -77,8 +77,8 @@ Window {
       songIndex: 2
       title: "Poranne zorze"
       authorName: "Franek Jodełka"
-      imageSource: "qrc:/assets/images/image3.jpg"
-      videoSource: "qrc:/assets/videos/video_1.mp4"
+      imageSource: "qrc:/AudioPlayer/assets/images/image3.jpg"
+      videoSource: "qrc:/AudioPlayer/assets/videos/video_1.mp4"
     }
   }
 
@@ -105,7 +105,7 @@ Window {
         width: 64
         height: 64
 
-        source: "qrc:/assets/icons/previous.png"
+        source: "qrc:/AudioPlayer/assets/icons/previous.png"
 
         onClicked: PlayerController.switchToPreviousSong()
       }
@@ -116,7 +116,7 @@ Window {
         width: 64
         height: 64
 
-        source: PlayerController.playing ? "qrc:/assets/icons/pause.png" : "qrc:/assets/icons/play.png"
+        source: PlayerController.playing ? "qrc:/AudioPlayer/assets/icons/pause.png" : "qrc:/AudioPlayer/assets/icons/play.png"
 
         onClicked: PlayerController.playPause()
       }
@@ -127,7 +127,7 @@ Window {
         width: 64
         height: 64
 
-        source: "qrc:/assets/icons/next.png"
+        source: "qrc:/AudioPlayer/assets/icons/next.png"
 
         onClicked: PlayerController.switchToNextSong()
       }
