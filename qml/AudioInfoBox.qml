@@ -5,13 +5,9 @@ import com.company.PlayerController
 Item {
   id: root
 
-  required property int songIndex
-  property alias title: titleText.text
-  property alias authorName: authorText.text
-  property alias imageSource: albumImage.source
-  property url videoSource: ""
+  property AudioInfo infoProvider
 
-  visible: PlayerController.currentSongIndex === root.songIndex
+  visible: PlayerController.currentSongIndex === infoProvider.songIndex
 
   Image {
     id: albumImage
@@ -23,24 +19,25 @@ Item {
 
     width: 150
     height: 150
+
+    source: infoProvider.imageSource
   }
 
   MediaPlayer {
     id: mediaPlayer
-    source: root.videoSource
+    source: infoProvider.videoSource
     videoOutput: videoOutput
     autoPlay: false
     loops: MediaPlayer.Infinite
   }
-
   VideoOutput {
     id: videoOutput
+    width: 150
+    height: 150
     anchors {
       verticalCenter: parent.verticalCenter
       right: parent.right
     }
-    width: 150
-    height: 150
   }
 
   Text {
@@ -55,6 +52,7 @@ Item {
 
     color: "white"
     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+    text: infoProvider.title
 
     font {
       pixelSize: 20
@@ -74,6 +72,7 @@ Item {
 
     color: "gray"
     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+    text: infoProvider.authorName
 
     font {
       pixelSize: 16
@@ -81,11 +80,22 @@ Item {
   }
 
   onVisibleChanged: {
-    if (visible && root.videoSource !== "") {
+    if (visible) {
       mediaPlayer.play()
     } else {
       mediaPlayer.stop()
       mediaPlayer.position = 0
     }
+  }
+
+  Component.onCompleted: {
+    if (PlayerController.currentSongIndex === infoProvider.songIndex) {
+      PlayerController.changeAudioSource(infoProvider.audioSource)
+    }
+    console.log("infoProvider =", infoProvider)
+    console.log("infoProvider.songIndex =",
+                infoProvider ? infoProvider.songIndex : "NULL")
+    console.log("PlayerController.currentSongIndex =",
+                PlayerController.currentSongIndex)
   }
 }

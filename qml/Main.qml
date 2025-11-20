@@ -2,9 +2,13 @@ import QtQuick
 import com.company.PlayerController
 
 Window {
+  id: root
+
   width: 640
   height: 640
+
   visible: true
+
   title: qsTr("Song Player")
 
   Rectangle {
@@ -33,7 +37,7 @@ Window {
     color: "#1e1e1e"
 
     AudioInfoBox {
-      id: firstSong
+      id: audioInfoBox
 
       anchors {
         verticalCenter: parent.verticalCenter
@@ -42,46 +46,9 @@ Window {
         margins: 20
       }
 
-      songIndex: 0
-      title: "Eine kleine Nachtmusik"
-      authorName: "Rammstein"
-      imageSource: "qrc:/AudioPlayer/assets/images/image1.jpg"
-    }
-
-    AudioInfoBox {
-      id: secondSong
-
-      anchors {
-        verticalCenter: parent.verticalCenter
-        left: parent.left
-        right: parent.right
-        margins: 20
-      }
-
-      songIndex: 1
-      title: "Meine Mutter"
-      authorName: "Radio dla Polaków"
-      imageSource: "qrc:/AudioPlayer/assets/images/image2.jpg"
-    }
-
-    AudioInfoBox {
-      id: thirdSong
-
-      anchors {
-        verticalCenter: parent.verticalCenter
-        left: parent.left
-        right: parent.right
-        margins: 20
-      }
-
-      songIndex: 2
-      title: "Poranne zorze"
-      authorName: "Franek Jodełka"
-      imageSource: "qrc:/AudioPlayer/assets/images/image3.jpg"
-      videoSource: "qrc:/AudioPlayer/assets/videos/video_1.mp4"
+      infoProvider: PlayerController.currentSong
     }
   }
-
   Rectangle {
     id: bottombar
 
