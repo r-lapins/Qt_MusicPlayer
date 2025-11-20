@@ -2,72 +2,75 @@
 
 ![Dashboard Screenshot](assets/view_0.png)
 
-Qt_MusicPlayer to prosty odtwarzacz muzyki stworzony z użyciem C++
-(backend) oraz QML (interfejs). Projekt bazuje na tutorialu i służy jako
-dobry punkt startowy do nauki integracji Qt 6 + QML + C++.
+Qt_MusicPlayer is a simple music player created using C++
+(backend) and QML (interface). The project is based on a tutorial and serves as
+a good starting point for learning Qt 6 + QML + C++ integration.
 
-# Spis treści
+# Table of Contents
 
--   Funkcjonalności
--   Technologie
--   Instalacja i budowanie
--   Uruchamianie
--   Struktura projektu
--   Plany na przyszłość
--   Licencja
+-   Features
+-   Technologies
+-   Installation and building
+-   Running
+-   Project structure
+-   Future plans
+-   License
 
-# Funkcjonalności
+# Features
 
--   Wczytywanie plików audio (np. MP3, WAV)
--   Odtwarzanie, pauza, wznawianie
--   Przejście do następnego/poprzedniego utworu
--   Wyświetlanie podstawowych informacji o pliku audio (np. tytuł,
-    wykonawca)
--   Prosta, responsywna warstwa interfejsu z QML
+-   Loading audio files (e.g., MP3, WAV)
+-   Play, pause, resume
+-   Skip to next/previous track
+-   Display basic audio file information (e.g., title,
+    artist)
+-   Simple, responsive interface layer with QML
 
-# Technologie
+# Technologies
 
 -   C++ (backend)
 -   QML (UI)
--   Qt 6 framework
--   CMake jako system budowania
--   (Opcjonalnie) komponenty multimedialne Qt
+- Qt 6 framework
+- CMake as the build system
+- (Optional) Qt multimedia components
 
-# Instalacja i budowanie
+# Installation and building
 
-1.  Sklonuj repozytorium:
-    git clone https://github.com/r‑lapins/Qt_MusicPlayer.git
-    cd Qt_MusicPlayer
-2.  Utwórz katalog budowania i skonfiguruj projekt CMake:
+1. Clone the repository:
+  git clone https://github.com/r‑lapins/Qt_MusicPlayer.git
+  cd Qt_MusicPlayer
+2.  Create a build directory and configure the CMake project:
     mkdir build && cd build
     cmake ..
-3.  Zbuduj projekt:
+3.  Build the project:
     cmake –build .
 
-# Uruchamianie
+# Running
 
-Po ukończeniu budowania uruchom wygenerowany plik binarny (np.
+Once the build is complete, run the generated binary file (e.g.,
 Qt_MusicPlayer).
 
-# Struktura projektu
+# Project structure
 
-/assets/ – zasoby
-/qml/ – interfejs QML
-AudioInfo.cpp/.h – metadane audio
-PlayerController.cpp/.h – logika odtwarzacza
-main.cpp – punkt wejścia
-CMakeLists.txt – konfiguracja
+/assets/ – assets
+/qml/ – QML interface
+AudioInfo.cpp/.h – audio metadata
+PlayerController.cpp/.h – player logic
+main.cpp – entry point
+CMakeLists.txt – configuration
 .gitignore
 README.md
 
-# Plany na przyszłość
+# Future plans
 
--   Playlisty
+-   Playlists
 -   Shuffle / repeat
--   Biblioteka muzyczna
--   Więcej formatów
--   Poprawa UI
+-   Music library
+-   More formats
+-   UI improvement
 
-# Licencja
+# License
 
 MIT (or no license).
+
+
+Translated with DeepL.com (free version)
