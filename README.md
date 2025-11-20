@@ -36,13 +36,18 @@ a good starting point for learning Qt 6 + QML + C++ integration.
 # Installation and building
 
 1. Clone the repository:
-  git clone https://github.com/r‑lapins/Qt_MusicPlayer.git
-  cd Qt_MusicPlayer
+```
+git clone https://github.com/r‑lapins/Qt_MusicPlayer.git
+cd Qt_MusicPlayer
+```
 2.  Create a build directory and configure the CMake project:
-    mkdir build && cd build
+```    mkdir build && cd build
     cmake ..
+```
 3.  Build the project:
+```
     cmake –build .
+```
 
 # Running
 
