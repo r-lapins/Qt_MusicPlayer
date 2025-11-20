@@ -70,7 +70,4 @@ README.md
 
 # License
 
-MIT (or no license).
-
-
-Translated with DeepL.com (free version)
+MIT (or no license)
