@@ -42,11 +42,11 @@ cd Qt_MusicPlayer
 ```
 2.  Create a build directory and configure the CMake project:
 ```    mkdir build && cd build
-    cmake ..
+cmake ..
 ```
 3.  Build the project:
 ```
-    cmake –build .
+cmake –build .
 ```
 
 # Running
