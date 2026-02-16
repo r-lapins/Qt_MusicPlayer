@@ -65,7 +65,7 @@ Once the build is complete, run the generated binary file (e.g.,
 Qt_MusicPlayer).
 
 # Project structure
-
+```
 /assets/            # Application resources (icons, images, etc.)
 /qml/               # QML user interface files
 
@@ -76,7 +76,7 @@ main.cpp            # Application entry point
 CMakeLists.txt      # CMake build configuration
 .gitignore
 README.md
-
+```
 # Future plans
 
 -   Playlists
