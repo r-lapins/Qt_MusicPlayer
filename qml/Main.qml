@@ -22,6 +22,22 @@ Window {
 
     height: 50
     color: "#5f8575"
+
+    ImageButton {
+      anchors {
+        right: parent.right
+        verticalCenter: parent.verticalCenter
+        rightMargin: 20
+      }
+
+      width: 32
+      height: 32
+      source: "qrc:/AudioPlayer/assets/icons/menu_icon.png"
+
+      onClicked: {
+        playlistPanel.hidden = !playlistPanel.hidden
+      }
+    }
   }
 
   Rectangle {
@@ -45,10 +61,9 @@ Window {
         right: parent.right
         margins: 20
       }
-
-      infoProvider: PlayerController.currentSong
     }
   }
+
   Rectangle {
     id: bottombar
 
@@ -65,6 +80,8 @@ Window {
       anchors.centerIn: parent
 
       spacing: 20
+      enabled: !!PlayerController.currentSong
+      opacity: enabled ? 1 : 0.3
 
       ImageButton {
         id: previousButton
@@ -99,5 +116,15 @@ Window {
         onClicked: PlayerController.switchToNextSong()
       }
     }
+  }
+
+  PlaylistPanel {
+    id: playlistPanel
+
+    anchors {
+      top: topbar.bottom
+    }
+
+    x: hidden ? parent.width : parent.width - width
   }
 }

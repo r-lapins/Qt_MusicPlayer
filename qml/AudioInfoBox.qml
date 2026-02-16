@@ -5,9 +5,7 @@ import com.company.PlayerController
 Item {
   id: root
 
-  property AudioInfo infoProvider
-
-  visible: PlayerController.currentSongIndex === infoProvider.songIndex
+  visible: !!PlayerController.currentSong
 
   Image {
     id: albumImage
@@ -20,16 +18,17 @@ Item {
     width: 150
     height: 150
 
-    source: infoProvider.imageSource
+    source: !!PlayerController.currentSong ? PlayerController.currentSong.imageSource : ""
   }
 
   MediaPlayer {
     id: mediaPlayer
-    source: infoProvider.videoSource
+    source: !!PlayerController.currentSong ? PlayerController.currentSong.videoSource : ""
     videoOutput: videoOutput
-    autoPlay: false
+    autoPlay: true
     loops: MediaPlayer.Infinite
   }
+
   VideoOutput {
     id: videoOutput
     width: 150
@@ -52,7 +51,7 @@ Item {
 
     color: "white"
     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-    text: infoProvider.title
+    text: !!PlayerController.currentSong ? PlayerController.currentSong.title : ""
 
     font {
       pixelSize: 20
@@ -72,7 +71,7 @@ Item {
 
     color: "gray"
     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-    text: infoProvider.authorName
+    text: !!PlayerController.currentSong ? PlayerController.currentSong.authorName : ""
 
     font {
       pixelSize: 16
@@ -88,14 +87,9 @@ Item {
     }
   }
 
-  Component.onCompleted: {
-    if (PlayerController.currentSongIndex === infoProvider.songIndex) {
-      PlayerController.changeAudioSource(infoProvider.audioSource)
-    }
-    console.log("infoProvider =", infoProvider)
-    console.log("infoProvider.songIndex =",
-                infoProvider ? infoProvider.songIndex : "NULL")
-    console.log("PlayerController.currentSongIndex =",
-                PlayerController.currentSongIndex)
-  }
+  // console.log("infoProvider =", infoProvider)
+  // console.log("infoProvider.songIndex =",
+  //             infoProvider ? infoProvider.songIndex : "NULL")
+  // console.log("PlayerController.currentSongIndex =",
+  //             PlayerController.currentSongIndex)
 }

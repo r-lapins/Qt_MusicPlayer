@@ -6,13 +6,26 @@
 #include <QAudioOutput>
 
 PlayerController::PlayerController(QObject *parent)
-    : QObject{parent}
+    : QAbstractListModel{parent}
 {
-    initPlaylist();
     const auto &audioOutputs = QMediaDevices::audioOutputs();
     if (!audioOutputs.isEmpty()) {
         m_mediaPlayer.setAudioOutput(new QAudioOutput(&m_mediaPlayer));     // &m_mediaPlayer - parent
     }
+
+    addAudio("Eine kleine maine Dame",
+             "Rammstungerenzig",
+             QUrl("qrc:/AudioPlayer/assets/audio/eine_kleine_nachtmusik.wav"),
+             QUrl("qrc:/AudioPlayer/assets/images/image1.jpg"));
+    addAudio("Meine Mutter",
+             "Radio dla Polaków",
+             QUrl("qrc:/AudioPlayer/assets/audio/air_on_the_g_string.wav"),
+             QUrl("qrc:/AudioPlayer/assets/images/image2.jpg"));
+    addAudio("Poranne zorze",
+             "Franek Jodełka",
+             QUrl("qrc:/AudioPlayer/assets/audio/symphony_no_5.wav"),
+             QUrl("qrc:/AudioPlayer/assets/images/image3.jpg"),
+             QUrl("qrc:/AudioPlayer/assets/videos/video_1.mp4"));
 }
 
 PlayerController *PlayerController::create(QQmlEngine *engine, QJSEngine *jsEngine)
@@ -23,16 +36,6 @@ PlayerController *PlayerController::create(QQmlEngine *engine, QJSEngine *jsEngi
     return &instance;
 }
 
-const QList<AudioInfo *> &PlayerController::songs() const
-{
-    return m_songs;
-}
-
-int PlayerController::currentSongIndex() const
-{
-    return m_currentSongIndex;
-}
-
 bool PlayerController::playing() const
 {
     return m_playing;
@@ -40,41 +43,27 @@ bool PlayerController::playing() const
 
 void PlayerController::switchToNextSong()
 {
-    if (m_songs.isEmpty())
+    const int index = m_audioList.indexOf(m_currentSong);
+    if (m_audioList.isEmpty())
         return;
 
-    if (m_currentSongIndex + 1 >= m_songs.size()) {
-        m_currentSongIndex = 0;
+    if (index + 1 >= m_audioList.length()) {
+        setCurrentSong(m_audioList.first());
     } else {
-        m_currentSongIndex++;
-    }
-
-    emit currentSongIndexChanged();
-    emit currentSongChanged();
-
-    auto *info = m_songs.at(m_currentSongIndex);
-    if (info) {
-        changeAudioSource(info->audioSource());
+        setCurrentSong(m_audioList[index + 1]);
     }
 }
 
 void PlayerController::switchToPreviousSong()
 {
-    if (m_songs.isEmpty())
+    const int index = m_audioList.indexOf(m_currentSong);
+    if (m_audioList.isEmpty())
         return;
 
-    if (m_currentSongIndex -1 < 0) {
-        m_currentSongIndex = m_songs.size() -1;
+    if (index -1 < 0) {
+        setCurrentSong(m_audioList.last());
     } else {
-        m_currentSongIndex--;
-    }
-
-    emit currentSongIndexChanged();
-    emit currentSongChanged();
-
-    auto *info = m_songs.at(m_currentSongIndex);
-    if (info) {
-        changeAudioSource(info->audioSource());
+        setCurrentSong(m_audioList[index - 1]);
     }
 }
 
@@ -99,49 +88,128 @@ void PlayerController::changeAudioSource(const QUrl &source)
     }
 }
 
-AudioInfo *PlayerController::currentSong() const
+void PlayerController::addAudio(const QString &title, const QString &authorName,
+                                const QUrl &audioSource, const QUrl &imageSource, const QUrl &videoSource)
 {
-    if (m_currentSongIndex < 0 || m_currentSongIndex >= m_songs.size())
-        return nullptr;
-    return m_songs[m_currentSongIndex];
+    const bool wasEmpty = m_audioList.isEmpty();
+
+    beginInsertRows(QModelIndex(), m_audioList.length(), m_audioList.length());
+
+    AudioInfo *audioInfo = new AudioInfo(this);
+
+    audioInfo->setTitle(title);
+    audioInfo->setAuthorName(authorName);
+    audioInfo->setAudioSource(audioSource);
+    audioInfo->setImageSource(imageSource);
+    audioInfo->setVideoSource(videoSource);
+
+    m_audioList << audioInfo;
+
+    endInsertRows();
+
+    if (wasEmpty) {
+        setCurrentSong(audioInfo);
+    }
 }
 
-void PlayerController::initPlaylist()
+void PlayerController::removeAudio(int index)
 {
-    // utwór 1
-    {
-        auto *info = new AudioInfo(this);
-        info->setSongIndex(0);
-        info->setTitle("Eine kleine maine Dame");
-        info->setAuthorName("Rammstungerenzig");
-        info->setImageSource(QUrl("qrc:/AudioPlayer/assets/images/image1.jpg"));
-        info->setAudioSource(QUrl("qrc:/AudioPlayer/assets/audio/eine_kleine_nachtmusik.wav"));
-        m_songs.append(info);
+    if (index >= 0 && index < m_audioList.length()) {
+        beginRemoveRows(QModelIndex(), index, index);
+
+        // for (const auto &entry : m_audioList) {
+        //     qDebug() << entry->title();
+        // }
+
+        AudioInfo *toRemove = m_audioList[index];
+
+        if (toRemove == m_currentSong) {
+            if (m_audioList.length() > 1) {
+                if (index != 0) {
+                    setCurrentSong(m_audioList[index - 1]);
+                } else {
+                    setCurrentSong(m_audioList[index + 1]);
+                }
+            } else {
+                setCurrentSong(nullptr);
+            }
+        }
+
+        m_audioList.removeAt(index);
+        toRemove->deleteLater();
+
+        endRemoveRows();
+    }
+}
+
+void PlayerController::switchToAudioByIndex(int index)
+{
+    if (index >= 0 && index < m_audioList.length()) {
+        setCurrentSong(m_audioList[index]);
+    }
+}
+
+int PlayerController::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return m_audioList.length();
+}
+
+QVariant PlayerController::data(const QModelIndex &index, int role) const
+{
+    if (index.isValid() && index.row() >= 0 && index.row() < m_audioList.length()) {
+        AudioInfo * audioInfo = m_audioList[index.row()];
+
+        switch((Role) role) {
+        case AudioTitleRole:
+            return audioInfo->title();
+        case AudioAuthorNameRole:
+            return audioInfo->authorName();
+        case AudioSourceRole:
+            return audioInfo->audioSource();
+        case AudioImageSourceRole:
+            return audioInfo->imageSource();
+        case AudioVideoSourceRole:
+            return audioInfo->videoSource();
+        default:
+            return {};
+        }
     }
 
-    // utwór 2
-    {
-        auto *info = new AudioInfo(this);
-        info->setSongIndex(1);
-        info->setTitle("Meine Mutter");
-        info->setAuthorName("Radio dla Polaków");
-        info->setImageSource(QUrl("qrc:/AudioPlayer/assets/images/image2.jpg"));
-        info->setAudioSource(QUrl("qrc:/AudioPlayer/assets/audio/air_on_the_g_string.wav"));
-        m_songs.append(info);
-    }
+    return {};
+}
 
-    // utwór 3
-    {
-        auto *info = new AudioInfo(this);
-        info->setSongIndex(2);
-        info->setTitle("Poranne zorze");
-        info->setAuthorName("Franek Jodełka");
-        info->setImageSource(QUrl("qrc:/AudioPlayer/assets/images/image3.jpg"));
-        info->setAudioSource(QUrl("qrc:/AudioPlayer/assets/audio/symphony_no_5.wav"));
-        info->setVideoSource(QUrl("qrc:/AudioPlayer/assets/videos/video_1.mp4"));
-        m_songs.append(info);
-    }
+QHash<int, QByteArray> PlayerController::roleNames() const
+{
+    QHash<int, QByteArray> result;
 
-    // qDebug() << "HAAAAAAAAAAAAAAAAAAAAAAAAAAALOOO!!!!!!" << m_songs[2]->authorName();
-    emit songsChanged();
+    result[AudioTitleRole] = "audioTitle";
+    result[AudioAuthorNameRole] = "audioAuthorName";
+    result[AudioSourceRole] = "audioSource";
+    result[AudioImageSourceRole] = "audioImageSource";
+    result[AudioVideoSourceRole] = "audioVideoSource";
+
+    return result;
+}
+
+AudioInfo *PlayerController::currentSong() const
+{
+    return m_currentSong;
+}
+
+void PlayerController::setCurrentSong(AudioInfo *newCurrentSong)
+{
+    if (m_currentSong == newCurrentSong)
+        return;
+    m_currentSong = newCurrentSong;
+    emit currentSongChanged();
+
+    if (m_currentSong) {
+        changeAudioSource(m_currentSong->audioSource());
+    } else {
+        m_mediaPlayer.stop();
+        m_mediaPlayer.setSource(QUrl());
+        m_playing = false;
+        emit playingChanged();
+    }
 }

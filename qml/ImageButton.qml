@@ -7,6 +7,7 @@ Image {
 
   opacity: buttonMouseArea.containsMouse ? 0.15 : 1
   mipmap: true
+  fillMode: Image.PreserveAspectFit
 
   MouseArea {
     id: buttonMouseArea
