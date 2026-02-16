@@ -2,9 +2,20 @@
 
 ![Dashboard Screenshot](assets/view_0.png)
 
-Qt_MusicPlayer is a simple music player created using C++
-(backend) and QML (interface). The project is based on a tutorial and serves as
-a good starting point for learning Qt 6 + QML + C++ integration.
+Qt_MusicPlayer is a simple music player application built with Qt 6.
+The backend is implemented in C++, while the user interface is created using QML.
+
+## Purpose
+
+This project was developed while following the YouTube tutorial:
+"Qt QML Tutorial #0: Introduction to Qt/QML" by Somco Software.
+
+The main goal was to learn and understand:
+- Integration between C++ and QML
+- Qt 6 project structure
+- Signals and slots communication
+- Basic media handling in Qt
+- QML UI components and layouts
 
 # Table of Contents
 
@@ -21,14 +32,13 @@ a good starting point for learning Qt 6 + QML + C++ integration.
 -   Loading audio files (e.g., MP3, WAV)
 -   Play, pause, resume
 -   Skip to next/previous track
--   Display basic audio file information (e.g., title,
-    artist)
+-   Display basic audio file information (e.g., title, artist)
 -   Simple, responsive interface layer with QML
 
 # Technologies
 
--   C++ (backend)
--   QML (UI)
+- C++ (backend)
+- QML (UI)
 - Qt 6 framework
 - CMake as the build system
 - (Optional) Qt multimedia components
@@ -56,12 +66,14 @@ Qt_MusicPlayer).
 
 # Project structure
 
-/assets/ – assets
-/qml/ – QML interface
-AudioInfo.cpp/.h – audio metadata
-PlayerController.cpp/.h – player logic
-main.cpp – entry point
-CMakeLists.txt – configuration
+/assets/            # Application resources (icons, images, etc.)
+/qml/               # QML user interface files
+
+AudioInfo.h/.cpp    # Class responsible for handling audio metadata
+PlayerController.h/.cpp  # Core player logic and playback control
+
+main.cpp            # Application entry point
+CMakeLists.txt      # CMake build configuration
 .gitignore
 README.md
 
