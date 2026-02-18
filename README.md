@@ -4,89 +4,183 @@
 ![Dashboard Screenshot](assets/view_1.png)
 ![Dashboard Screenshot](assets/view_2.png)
 
-Qt_MusicPlayer is a simple music player application built with Qt 6.
-The backend is implemented in C++, while the user interface is created using QML.
+Qt_MusicPlayer is a desktop music player application built with **Qt 6 (C++ + QML)**.  
+The project demonstrates integration between native C++ backend logic and a modern QML user interface, including playlist management and REST API communication.
 
-## Purpose
+Originally developed while following a Qt/QML tutorial, the project required adjustments for newer Qt 6 versions.
 
-This project was developed while following the YouTube tutorial:
-"Qt QML Tutorial #0: Introduction to Qt/QML" by Somco Software.
 
-The main goal was to learn and understand:
-- Integration between C++ and QML
-- Qt 6 project structure
-- Signals and slots communication
-- Basic media handling in Qt
-- QML UI components and layouts
+---
 
-# Table of Contents
+# Project Overview
 
--   Features
--   Technologies
--   Installation and building
--   Running
--   Project structure
--   Future plans
--   License
+This application demonstrates:
 
-# Features
+- Clean separation between UI (QML) and business logic (C++)
+- Use of `QAbstractListModel` to expose C++ models to QML
+- REST API communication using `QNetworkAccessManager`
+- JSON parsing using Qt JSON utilities
+- Playlist management and dynamic model updates
+- Modular QML component design
 
--   Loading audio files (e.g., MP3, WAV)
--   Play, pause, resume
--   Skip to next/previous track
--   Display basic audio file information (e.g., title, artist)
--   Simple, responsive interface layer with QML
+The project focuses on understanding how real-world Qt applications are structured and how backend logic can be exposed efficiently to a declarative UI.
 
-# Technologies
+---
 
-- C++ (backend)
-- QML (UI)
-- Qt 6 framework
-- CMake as the build system
-- (Optional) Qt multimedia components
+# Key Features
 
-# Installation and building
+## Local Audio Player
+- Load local audio files (MP3, WAV)
+- Play / Pause / Resume
+- Next / Previous navigation
+- Display basic metadata (title, artist)
 
-1. Clone the repository:
+## Playlist System (Model/View Architecture)
+- `PlayerController` derived from `QAbstractListModel`
+- Internal `QList<AudioInfo>` used as playlist container
+- Add / remove tracks dynamically
+- Play track by index
+- Playlist rendered in QML using `ListView`
+- Full C++ ↔ QML data binding
+
+## Online Music Search (REST Integration)
+- Integration with **Jamendo Public REST API**
+- HTTP requests handled via `QNetworkAccessManager`
+- Asynchronous response handling with signals/slots
+- JSON parsing using:
+  - `QJsonDocument`
+  - `QJsonObject`
+  - `QJsonArray`
+- Custom `AudioSearchModel` exposed to QML
+- Search results displayed in QML ListView
+- Add online tracks directly to playlist
+
+---
+
+# Architecture
+
+The project follows a simplified layered architecture:
+
+UI Layer (QML)
+↓
+C++ Models (QAbstractListModel)
+↓
+Media / Networking Layer
+↓
+Qt Framework (Multimedia, Network)
+
+Main components:
+
+- `PlayerController`  
+  Playlist model + playback control logic.
+
+- `AudioSearchModel`  
+  Stores and exposes REST search results to QML.
+
+- `AudioInfo`  
+  Data structure representing audio metadata.
+
+- QML Panels  
+  - PlaylistPanel  
+  - SearchPanel  
+  - Reusable UI components
+
+This architecture ensures:
+- Clear responsibility separation
+- Reactive UI updates via Qt's Model/View system
+- Testable backend logic independent from UI
+
+---
+
+# Technologies Used
+
+- **C++17**
+- **Qt 6**
+- QML
+- Qt Multimedia
+- Qt Network
+- QAbstractListModel
+- QNetworkAccessManager
+- JSON handling (Qt JSON API)
+- CMake
+
+---
+
+# Build Instructions
+
+### 1. Clone the repository
+
 ```
-git clone https://github.com/r‑lapins/Qt_MusicPlayer.git
+git clone https://github.com/r-lapins/Qt_MusicPlayer.git
 cd Qt_MusicPlayer
 ```
-2.  Create a build directory and configure the CMake project:
-```    mkdir build && cd build
+
+### 2. Configure the project
+
+```
+mkdir build && cd build
 cmake ..
 ```
-3.  Build the project:
+
+### 3. Build
+
 ```
-cmake –build .
+cmake --build .
 ```
+
+---
 
 # Running
 
-Once the build is complete, run the generated binary file (e.g.,
-Qt_MusicPlayer).
+After building:
 
-# Project structure
 ```
-/assets/            # Application resources (icons, images, etc.)
-/qml/               # QML user interface files
+./Qt_MusicPlayer
+```
 
-AudioInfo.h/.cpp    # Class responsible for handling audio metadata
-PlayerController.h/.cpp  # Core player logic and playback control
+(On Windows, run the generated `.exe` file.)
 
-main.cpp            # Application entry point
-CMakeLists.txt      # CMake build configuration
-.gitignore
+---
+
+# Project Structure
+
+```
+/assets/                    # Icons and UI resources
+/qml/                       # QML UI components
+
+AudioInfo.h/.cpp            # Audio metadata representation
+PlayerController.h/.cpp     # Playlist model + playback logic
+AudioSearchModel.h/.cpp     # REST search results model
+
+main.cpp                    # Application entry point
+CMakeLists.txt              # Build configuration
 README.md
 ```
-# Future plans
 
--   Playlists
--   Shuffle / repeat
--   Music library
--   More formats
--   UI improvement
+---
+
+# What This Project Demonstrates
+
+- Practical understanding of Qt Model/View architecture
+- Real-world C++ ↔ QML integration
+- Asynchronous networking in Qt
+- JSON parsing and data mapping
+- Designing modular UI in QML
+- Clean separation of concerns in desktop applications
+
+---
+
+# Possible Future Improvements
+
+- Shuffle / repeat modes
+- Network error handling improvements
+- Caching of search results
+- Refactoring networking into dedicated service layer
+- Unit testing for models
+- UI/UX refinements
+
+---
 
 # License
 
-MIT (or no license)
+MIT
