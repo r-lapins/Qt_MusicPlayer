@@ -10,7 +10,6 @@ class AudioInfo;
 class PlayerController : public QAbstractListModel
 {
     Q_OBJECT
-
     Q_PROPERTY(bool playing READ playing NOTIFY playingChanged)
     Q_PROPERTY(AudioInfo* currentSong READ currentSong WRITE setCurrentSong NOTIFY currentSongChanged FINAL)
 
