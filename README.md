@@ -16,7 +16,7 @@ Originally developed while following a Qt/QML tutorial, the project required adj
 
 This application demonstrates:
 
-- Clean separation between UI (QML) and business logic (C++)
+- Separation between QML presentation layer and C++ model/controller layer
 - Use of `QAbstractListModel` to expose C++ models to QML
 - REST API communication using `QNetworkAccessManager`
 - JSON parsing using Qt JSON utilities
