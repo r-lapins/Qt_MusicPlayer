@@ -94,7 +94,7 @@ This architecture ensures:
 
 # Technologies Used
 
-- **C++17**
+- **C++11/14**
 - **Qt 6**
 - QML
 - Qt Multimedia
