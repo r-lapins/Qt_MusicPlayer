@@ -16,6 +16,7 @@ qt_add_executable(appAudioPlayerTutorial
     main.cpp
     AudioInfo.cpp AudioInfo.h
     PlayerController.cpp PlayerController.h
+    AudioSearchModel.h AudioSearchModel.cpp
 )
 
 qt_add_resources(appAudioPlayerTutorial
@@ -33,7 +34,6 @@ qt_add_qml_module(appAudioPlayerTutorial
     QML_FILES ${QML_SRC}
     RESOURCES ${ASSETS_SRC}
     SOURCES AudioInfo.cpp AudioInfo.h
-    # PlayerController.cpp PlayerController.h
 )
 
 target_link_libraries(appAudioPlayerTutorial

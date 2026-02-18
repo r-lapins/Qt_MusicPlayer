@@ -1,14 +1,16 @@
 import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
+
 import com.company.PlayerController
+import com.company.AudioSearchModel
 
 Window {
   id: root
 
   width: 640
   height: 640
-
   visible: true
-
   title: qsTr("Song Player")
 
   Rectangle {
@@ -23,7 +25,31 @@ Window {
     height: 50
     color: "#5f8575"
 
+    SearchFieldX {
+      id: searchFieldX
+
+      anchors {
+        left: parent.left
+        right: closeSearchButton.left
+        verticalCenter: parent.verticalCenter
+        margins: 20
+      }
+
+      height: 30
+
+      visible: !searchPanel.hidden
+      enabled: !AudioSearchModel.isSearching
+
+      onAccepted: value => {
+                    // console.log("ACCEPTED:", value)
+                    AudioSearchModel.searchSong(value)
+                    topbar.forceActiveFocus()
+                  }
+    }
+
     ImageButton {
+      id: playlistIcon
+
       anchors {
         right: parent.right
         verticalCenter: parent.verticalCenter
@@ -34,8 +60,29 @@ Window {
       height: 32
       source: "qrc:/AudioPlayer/assets/icons/menu_icon.png"
 
+      visible: searchPanel.hidden
       onClicked: {
         playlistPanel.hidden = !playlistPanel.hidden
+      }
+    }
+
+    ImageButton {
+      id: closeSearchButton
+
+      anchors {
+        right: parent.right
+        verticalCenter: parent.verticalCenter
+        rightMargin: 20
+      }
+
+      width: 32
+      height: 32
+
+      source: "qrc:/AudioPlayer/assets/icons/close_icon.png"
+      visible: !searchPanel.hidden
+
+      onClicked: {
+        searchPanel.hidden = true
       }
     }
   }
@@ -86,6 +133,7 @@ Window {
       ImageButton {
         id: previousButton
 
+        anchors.verticalCenter: parent.verticalCenter
         width: 64
         height: 64
 
@@ -97,17 +145,18 @@ Window {
       ImageButton {
         id: playPauseButton
 
+        anchors.verticalCenter: parent.verticalCenter
         width: 64
         height: 64
 
         source: PlayerController.playing ? "qrc:/AudioPlayer/assets/icons/pause.png" : "qrc:/AudioPlayer/assets/icons/play.png"
-
         onClicked: PlayerController.playPause()
       }
 
       ImageButton {
         id: nextButton
 
+        anchors.verticalCenter: parent.verticalCenter
         width: 64
         height: 64
 
@@ -126,5 +175,22 @@ Window {
     }
 
     x: hidden ? parent.width : parent.width - width
+
+    onSearchRequested: {
+      searchPanel.hidden = false
+    }
+  }
+
+  SearchPanel {
+    id: searchPanel
+
+    anchors {
+      left: parent.left
+      right: parent.right
+    }
+
+    height: mainSection.height + bottombar.height
+
+    y: hidden ? parent.height : topbar.height
   }
 }

@@ -3,6 +3,7 @@
 #include <QIcon>
 #include <QQmlContext>
 #include "PlayerController.h"
+#include "AudioSearchModel.h"
 #include "AudioInfo.h"
 
 int main(int argc, char *argv[])
@@ -18,6 +19,9 @@ int main(int argc, char *argv[])
     
     qmlRegisterSingletonType<PlayerController>("com.company.PlayerController", 1, 0,
                                                "PlayerController", &PlayerController::create);
+
+    qmlRegisterSingletonType<AudioSearchModel>("com.company.AudioSearchModel", 1, 0,
+                                               "AudioSearchModel", &AudioSearchModel::create);
 
     engine.loadFromModule("AudioPlayer", "Main");
 

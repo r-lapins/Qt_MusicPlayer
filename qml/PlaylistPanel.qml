@@ -6,6 +6,8 @@ Rectangle {
 
   property bool hidden: true
 
+  signal searchRequested
+
   height: 400
   width: 250
 
@@ -144,10 +146,8 @@ Rectangle {
     width: 32
 
     onClicked: {
-      PlayerController.addAudio(
-            "Reprezentuje biede", "Rychu Peja",
-            "qrc:/AudioPlayer/assets/audio/air_on_the_g_string.wav",
-            "qrc:/AudioPlayer/assets/images/image3.jpg")
+      root.searchRequested()
+      root.hidden = true
     }
   }
 
