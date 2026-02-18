@@ -2,6 +2,7 @@
 
 ![Dashboard Screenshot](assets/view_0.png)
 ![Dashboard Screenshot](assets/view_1.png)
+![Dashboard Screenshot](assets/view_2.png)
 
 Qt_MusicPlayer is a simple music player application built with Qt 6.
 The backend is implemented in C++, while the user interface is created using QML.
